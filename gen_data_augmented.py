@@ -1,3 +1,4 @@
+from PIL import Image
 import os, glob
 import numpy as np
 # from sklearn import cross_validation
@@ -22,7 +23,7 @@ for index, classlabel in enumerate(classes):
         image = Image.open(file)
         image = image.convert("RGB")
         image = image.resize((image_size, image_size))
-        data = np.asarray(image)
+        data = np.asarray(image,dtype=object)
 
         if i < num_testdata:
             X_test.append(data)
@@ -31,22 +32,22 @@ for index, classlabel in enumerate(classes):
             for angle in range(-20,20,5):
                 # 回転
                 img_r = image.rotate(angle)
-                data = np.asarray(img_r)
+                data = np.asarray(img_r,dtype=object)
                 X_train.append(data)
                 Y_train.append(index)
 
                 # 反転
                 img_trans = img_r.transpose(Image.FLIP_LEFT_RIGHT)
-                data = np.asarray(img_trans)
+                data = np.asarray(img_trans,dtype=object)
                 X_train.append(data)
                 Y_train.append(index)
 
 # X = np.array(X)
 # Y = np.array(Y)
-X_train = np.array(X_train)
-X_test = np.array(X_test)
-y_train = np.array(Y_train)
-y_test = np.array(Y_test)
+X_train = np.array(X_train,dtype=object)
+X_test = np.array(X_test,dtype=object)
+y_train = np.array(Y_train,dtype=object)
+y_test = np.array(Y_test,dtype=object)
 
 # X_train, X_test, y_train, y_test = model_selection.train_test_split(X, Y)
 xy = (X_train, X_test, y_train, y_test)
